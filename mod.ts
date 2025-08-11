@@ -11,4 +11,53 @@ function* (a: number) {
     }
 }
 
-console.log(...gem(5).map(x => x.toFixed(2)).take(10))
+class MF<T> {
+    p
+    constructor(p = new Map<T, number>) {
+        this.p = p
+    }
+}
+
+class PMF<T> extends MF<T> {
+    add(k: T, p: number) {
+        this.p.set(k, p)
+    }
+
+    toCMF() {
+        let sum = 0
+        return new CMF(this.p.entries()
+            .reduce(
+                (m, [k, v]) => m.set(k, sum += v),
+                new Map<T, number>,
+            )
+        )
+    }
+    sample(seed = Math.random()) {
+        return this.toCMF().sample(seed)
+    }
+}
+
+class CMF<T> extends MF<T> {
+    sample(seed = Math.random()) {
+        return this.p.entries()
+            .find(([_, v]) => seed < v)!
+            [0]
+    }
+}
+
+const dp =
+<T>
+(a: number, h: (seed: number) => T, sample = 10) => {
+    const pmf = new PMF<T>()
+    gem(a)
+        .take(sample)
+        .forEach(b => pmf.add(h(Math.random()), b))
+    return pmf
+}
+
+// @ts-types="https://esm.sh/@stdlib/random@0.3.3/base/normal/docs/types/index.d.ts"
+import normal from "https://esm.sh/@stdlib/random@0.3.3/base/normal/lib?standalone"
+
+console.log(
+    dp(5, _ => normal(0, 1), 10)
+)
