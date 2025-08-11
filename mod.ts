@@ -6,8 +6,14 @@ import uniform from "https://esm.sh/@stdlib/random@0.3.3/base/uniform/lib?standa
 
 import { PMF } from "./src/util.ts"
 
+const randSeed =
+() =>
+    Math.floor(
+        Math.random() * 2**16
+    )
+
 export const gem =
-function* (a: number, seed = Math.random() * 2**16) {
+function* (a: number, seed = randSeed()) {
     let b = 1
     const seededBeta = beta.factory({ seed })
     while (1) {
@@ -23,7 +29,7 @@ export const dp =
     a: number,
     h: (seed: number) => T,
     sample = 10,
-    seed = Math.random() * 2**16,
+    seed = randSeed(),
 ) => {
     const pmf = new PMF<T>()
     const rand = uniform.factory({ seed })
