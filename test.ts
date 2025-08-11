@@ -3,6 +3,8 @@ import normal from "https://esm.sh/@stdlib/random@0.3.3/base/normal/lib?standalo
 
 import { dp } from "./mod.ts"
 
+const seededNormal = normal.factory({ seed: 5 })
+
 console.log(
-    dp(5, _ => normal(0, 1), 10)
+    dp(5, _ => seededNormal(0, 1), 10, 5)
 )
