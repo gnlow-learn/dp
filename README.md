@@ -1,6 +1,9 @@
 # dp
 Dirichlet Process
 
+#### $\text{DP}$($\alpha$=1000, $H$=$N(0,1)$, sample=1000, seed=3)
+![](plot.svg)
+
 ## thought
 
 ### $\text{GEM}$($\alpha$: $\R_{>0}$, seed): ($\beta_k$: $(0,1)$[])
